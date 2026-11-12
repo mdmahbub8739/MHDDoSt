@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visitor Counter Test Page</title>
+<style>
+  body {
+    font-family: system-ui, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background: #0f172a;
+    color: #e2e8f0;
+  }
+  .counter-box {
+    text-align: center;
+    padding: 2rem 3rem;
+    border-radius: 12px;
+    background: #1e293b;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  }
+  #count {
+    font-size: 4rem;
+    font-weight: bold;
+    color: #38bdf8;
+  }
+  #meta {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: #94a3b8;
+  }
+</style>
+</head>
+<body>
+  <div class="counter-box">
+    <div>Total Visitors (this session)</div>
+    <div id="count">0</div>
+    <div id="meta">Server time: <span id="time">-</span></div>
+  </div>
+
+<script>
+  // পেজ লোড হওয়াই একটি "ভিজিট" হিসেবে কাউন্ট করা হচ্ছে।
+  // সার্ভার সাইডে কাউন্ট রাখার জন্য সাধারণ fetch কল।
+  // নিজের backend না থাকলে localStorage দিয়ে ক্লায়েন্ট-সাইড কাউন্ট দেখানো হচ্ছে (ডেমো হিসেবে)।
+
+  let count = parseInt(localStorage.getItem('visitor_count') || '0', 10);
+  count += 1;
+  localStorage.setItem('visitor_count', count);
+
+  document.getElementById('count').textContent = count;
+  document.getElementById('time').textContent = new Date().toLocaleString();
+
+  // যদি আপনার নিজের backend/server থাকে (যেখানে আপনি লোড টেস্ট করবেন),
+  // সেখানে একটি real counter endpoint বানিয়ে নিচের মতো কল করতে পারেন:
+  //
+  // fetch('/api/visit', { method: 'POST' })
+  //   .then(r => r.json())
+  //   .then(data => { document.getElementById('count').textContent = data.total; });
+</script>
+</body>
+</html>
